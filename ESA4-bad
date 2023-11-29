@@ -1,0 +1,57 @@
+import random
+
+def print_board(b):
+    for row in b:
+        print("|".join(row))
+        print("-----")
+
+def check_winner(b, p):
+    for i in range(3):
+        if b[i][0] == b[i][1] == b[i][2] == p:
+            return True
+        if b[0][i] == b[1][i] == b[2][i] == p:
+            return True
+    if b[0][0] == b[1][1] == b[2][2] == p:
+        return True
+    if b[0][2] == b[1][1] == b[2][0] == p:
+        return True
+    return False
+
+def is_board_full(b):
+    for row in b:
+        for cell in row:
+            if cell == ' ':
+                return False
+    return True
+
+def tic_tac_toe():
+    board = [[' ' for _ in range(3)] for _ in range(3)]
+    players = ['X', 'O']
+    current_player = 0
+
+    print("Willkommen beim Tic Tac Toe!")
+
+    while True:
+        print_board(board)
+
+        row = int(input("Spieler {} - Zeile (0, 1, 2): ".format(players[current_player])))
+        col = int(input("Spieler {} - Spalte (0, 1, 2): ".format(players[current_player])))
+
+        if board[row][col] == ' ':
+            board[row][col] = players[current_player]
+
+            if check_winner(board, players[current_player]):
+                print_board(board)
+                print("Spieler {} gewinnt!".format(players[current_player]))
+                break
+            elif is_board_full(board):
+                print_board(board)
+                print("Unentschieden!")
+                break
+            else:
+                current_player = 1 - current_player
+        else:
+            print("Ungültige Position. Bitte erneut versuchen.")
+
+if __name__ == "__main__":
+    tic_tac_toe()
