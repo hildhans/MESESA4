@@ -1,0 +1,68 @@
+def print_board(board):
+    # Funktion zum Drucken des Tic-Tac-Toe-Spielfelds.
+    for row in board:
+        print("|".join(row))
+        print("-----")
+
+
+def check_winner(board, player):
+    # Überprüft, ob ein Spieler gewonnen hat.
+    for i in range(3):
+        # Überprüfe Zeilen und Spalten
+        if (board[i][0] == board[i][1] == board[i][2] == player or
+            board[0][i] == board[1][i] == board[2][i] == player):
+            return True
+    # Überprüfe Diagonalen
+    if (board[0][0] == board[1][1] == board[2][2] == player or
+        board[0][2] == board[1][1] == board[2][0] == player):
+        return True
+    return False
+
+
+def is_board_full(board):
+    # Überprüft, ob das Spielfeld voll ist (Unentschieden).
+    for row in board:
+        for cell in row:
+            if cell == ' ':
+                return False
+    return True
+
+
+def tic_tac_toe():
+    # Hauptfunktion für das Tic-Tac-Toe-Spiel.
+    # Initialisiere das Spielfeld
+    board = [[' ' for _ in range(3)] for _ in range(3)]
+    players = ['X', 'O']
+    current_player = 0
+
+    print("Willkommen beim Tic Tac Toe!")
+
+    while True:
+        print_board(board)
+
+        # Spieler-Eingabe für Zeile und Spalte
+        row = int(input("Spieler {} - Zeile (0, 1, 2): ".format(players[current_player])))
+        col = int(input("Spieler {} - Spalte (0, 1, 2): ".format(players[current_player])))
+
+        # Überprüfe, ob das gewählte Feld frei ist
+        if board[row][col] == ' ':
+            board[row][col] = players[current_player]
+
+            # Überprüfe, ob der aktuelle Spieler gewonnen hat
+            if check_winner(board, players[current_player]):
+                print_board(board)
+                print("Spieler {} gewinnt!".format(players[current_player]))
+                break
+            # Überprüfe, ob das Spielfeld voll ist (Unentschieden)
+            elif is_board_full(board):
+                print_board(board)
+                print("Unentschieden!")
+                break
+            else:
+                # Wechsle zum anderen Spieler
+                current_player = 1 - current_player
+        else:
+            print("Ungültige Position. Bitte erneut versuchen.")
+
+if __name__ == "__main__":
+    tic_tac_toe()
